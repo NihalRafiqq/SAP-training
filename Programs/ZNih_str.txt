@@ -1,0 +1,22 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIH_STR
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIH_STR.
+
+TYPES : BEGIN OF ty_makt,
+  matnr TYPE makt-matnr,
+  spras TYPE makt-matnr,
+  maktx TYPE makt-maktx,
+  END OF ty_makt.
+
+  DATA st_makt type ty_makt.
+
+  st_makt-matnr = '23'.
+  st_makt-spras = '23'.
+  st_makt-maktx = 'DESC'.
+
+  write st_makt-matnr.
+  write st_makt-spras.
+  write st_makt-maktx.

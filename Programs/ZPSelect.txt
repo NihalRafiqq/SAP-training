@@ -1,0 +1,26 @@
+*&---------------------------------------------------------------------*
+*& Report ZPSELECT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZPSELECT.
+
+TYPES : BEGIN OF ty_makt,
+  matnr TYPE makt-matnr,
+  spras TYPE makt-spras,
+  maktx TYPE makt-maktx,
+  END OF ty_makt.
+
+DATA : st_makt TYPE ty_makt.
+
+PARAMETERS p_matnr TYPE makt-matnr.
+
+SELECT SINGLE matnr spras maktx FROM makt INTO st_makt WHERE matnr EQ p_matnr.
+
+WRITE :/ 'Material number:',
+         30 'Language:',
+         50 'Description'.
+
+WRITE :/ st_makt-matnr,
+         30 st_makt-spras,
+         50 st_makt-maktx.

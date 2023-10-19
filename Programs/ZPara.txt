@@ -1,0 +1,21 @@
+*&---------------------------------------------------------------------*
+*& Report ZPARA
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZPARA.
+
+parameters v_name type c length 20.
+
+v_name = 'nihal'.
+write v_name.
+
+DATA v_matnr type makt-matnr.
+
+types : begin of ty_makt,
+  matnr type ty_makt,
+  spras type ty_makt,
+  maktx type ty_makt,
+  end of ty_makt.
+
+  data s_makt type ty_makt.

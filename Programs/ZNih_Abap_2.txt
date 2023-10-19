@@ -1,0 +1,29 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIH_ABAP_2
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIH_ABAP_2.
+
+PARAMETERS : p_amt TYPE p DECIMALS 2,
+p_per TYPE p DECIMALS 2,
+p_days TYPE I,
+p_che AS CHECKBOX.
+DATA :   fin_amo TYPE p DECIMALS 2,
+      int_amo TYPE p DECIMALS 2.
+
+IF p_che EQ 'X'.
+  int_amo = p_amt * ( p_per / 100 ) * ( p_days ) .
+  fin_amo = p_amt + int_amo.
+
+ELSE.
+  fin_amo = p_amt.
+  DO p_days TIMES.
+    int_amo = fin_amo * p_per / 100.
+    fin_amo = fin_amo + int_amo.
+  ENDDO.
+ENDIF.
+
+WRITE :  'Initial Amount:',p_amt,/
+'Total Days:',p_days,/
+'Total Amount:',fin_amo.

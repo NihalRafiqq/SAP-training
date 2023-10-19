@@ -1,0 +1,49 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIH_ABAP_1
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIH_ABAP_1.
+data v_name type c length 10.
+v_name = 'abc'.
+write:/ v_name.
+
+data qty type n length 10.
+qty = '1234567890'.
+write:/ qty.
+
+data date type d.
+date = '20001110'.
+write:/ date.
+
+data time type t.
+time = '123033'.
+write:/ time.
+
+data dec type p length 10 DECIMALS 2.
+dec = '10.09'.
+WRITE:/ dec.
+
+data flo type f.
+flo = '1234567898'.
+WRITE:/ flo.
+
+data int type i.
+int = '123'.
+write:/ int.
+
+data df type Decfloat16.
+df = '12345.32456787'.
+write:/ df.
+
+data hex type x length 12.
+hex = '123456789123'.
+write:/ hex.
+
+data str type string.
+str = 'nihal'.
+write:/ str.
+
+data v type z_test.
+v = 'nihal07'.
+write:/ v.

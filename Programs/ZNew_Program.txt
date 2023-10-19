@@ -1,0 +1,55 @@
+*&---------------------------------------------------------------------*
+*& Report ZNEW_PROGRAM
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT znew_program.
+
+TYPES : BEGIN OF struct2.
+*          matnr TYPE makt-matnr,
+*          spras TYPE makt-spras,
+*          maktx TYPE makt-maktx,
+*        END OF ty_makt.
+
+PARAMETERS p_matnr TYPE struct2.
+
+DATA : it_makt TYPE TABLE OF struct2.
+*       wa_makt LIKE LINE OF it_makt.
+
+*wa_makt-matnr = '100'.
+*wa_makt-spras = 'E'.
+*wa_makt-maktx = 'Book'.
+*INSERT wa_makt INTO TABLE it_makt.
+*
+*wa_makt-matnr = '300'.
+*wa_makt-spras = 'E'.
+*wa_makt-maktx = 'Pen'.
+*INSERT wa_makt INTO TABLE it_makt.
+*
+*wa_makt-matnr = '200'.
+*wa_makt-spras = 'E'.
+*wa_makt-maktx = 'Notebook'.
+*INSERT wa_makt INTO TABLE it_makt.
+*
+*wa_makt-matnr = '400'.
+*wa_makt-spras = 'E'.
+*wa_makt-maktx = 'Marker'.
+*INSERT wa_makt INTO TABLE it_makt.
+*
+*wa_makt-matnr = '200'.
+*wa_makt-spras = 'D'.
+*wa_makt-maktx = 'Textbook'.
+*INSERT wa_makt INTO TABLE it_makt.
+*
+*wa_makt-matnr = '600'.
+*wa_makt-spras = 'E'.
+*wa_makt-maktx = 'Laptop'.
+*INSERT wa_makt INTO TABLE it_makt.
+
+*READ TABLE it_makt INTO wa_makt WITH KEY spras = 'E' .
+*SORT it_makt by spras.
+LOOP AT it_makt INTO wa_makt.
+
+
+WRITE :/ wa_makt.
+ENDLOOP.

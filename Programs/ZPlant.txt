@@ -1,0 +1,30 @@
+*&---------------------------------------------------------------------*
+*& Report ZPLANT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZPLANT.
+
+types : begin of ty_marc,
+  matnr type marc-matnr,
+  werks type marc-werks,
+  end of ty_marc.
+
+  data : it_marc TYPE TABLE OF ty_marc,
+        wa_marc LIKE LINE OF it_marc.
+
+  data v_name1 type t001w-name1.
+
+  parameters p_matnr type marc-matnr.
+
+  write : / 'Material Number',
+          40 'Plant Number',
+          80 'Plant Name'.
+
+  select matnr werks from marc into st_marc where matnr eq p_matnr.
+  select single name1 from t001w into v_name1 where werks eq st_marc-werks.
+
+    write :/ st_marc-matnr,
+    40 st_marc-werks,
+    80 v_name1.
+    ENDSELECT.

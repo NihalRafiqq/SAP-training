@@ -1,0 +1,63 @@
+*&---------------------------------------------------------------------*
+*& Report ZPRACTISE
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT zpractise.
+
+TYPES : BEGIN OF ty_makt,
+          matnr TYPE makt-matnr,
+          spras TYPE makt-spras,
+          maktx TYPE makt-maktx,
+        END OF ty_makt.
+
+DATA : it_makt TYPE TABLE OF ty_makt,
+       wa_makt LIKE LINE OF it_makt.
+
+PARAMETERS p_matnr TYPE makt-matnr.
+
+SELECT matnr spras maktx FROM makt INTO TABLE it_makt WHERE matnr EQ p_matnr.
+
+*wa_makt-matnr = '100'.
+*wa_makt-spras = 'E'.
+*wa_makt-maktx = 'BOOK'.
+*APPEND wa_makt TO it_makt.
+*
+*wa_makt-matnr = '200'.
+*wa_makt-spras = 'E'.
+*wa_makt-maktx = 'BOOK'.
+*APPEND wa_makt TO it_makt.
+*
+*wa_makt-matnr = '300'.
+*wa_makt-spras = 'E'.
+*wa_makt-maktx = 'BOOK'.
+*APPEND wa_makt TO it_makt.
+*
+*wa_makt-matnr = '400'.
+*wa_makt-spras = 'E'.
+*wa_makt-maktx = 'BOOK'.
+*APPEND wa_makt TO it_makt.
+*
+*wa_makt-matnr = '500'.
+*wa_makt-spras = 'D'.
+*wa_makt-maktx = 'DBOOK'.
+*APPEND wa_makt TO it_makt.
+
+
+WRITE :/ 'matnr',
+        50 'spras',
+        70 'maktx'.
+
+*READ TABLE it_makt INTO wa_makt WITH KEY spras = 'E' matnr = '200'.
+*LOOP AT it_makt INTO wa_makt.
+
+
+
+
+
+WRITE :/  wa_makt-matnr,
+        50  wa_makt-spras,
+        70  wa_makt-maktx.
+
+*ENDLOOP.
+ENDSELECT.

@@ -1,0 +1,31 @@
+*&---------------------------------------------------------------------*
+*& Report ZINTTBL
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZINTTBL.
+
+TYPES : BEGIN OF ty_makt,
+  matnr TYPE makt-matnr,
+  spras TYPE makt-spras,
+  maktx TYPE makt-maktx,
+  END OF ty_makt.
+
+DATA : it_makt TYPE TABLE OF ty_makt,
+      wa_makt LIKE LINE OF it_makt.
+
+wa_makt-matnr = '101'.
+wa_makt-spras = 'Nihal'.
+wa_makt-maktx = 'ENGINEER'.
+APPEND wa_makt TO it_makt.
+
+wa_makt-matnr = '102'.
+wa_makt-spras = 'Shrung'.
+wa_makt-maktx = 'CLEANER'.
+APPEND wa_makt TO it_makt.
+
+CLEAR wa_makt.
+
+*READ TABLE it_makt INTO wa_makt INDEX 2.
+
+WRITE wa_makt.

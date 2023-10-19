@@ -1,0 +1,27 @@
+*&---------------------------------------------------------------------*
+*& Report ZFETCH
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZFETCH.
+
+types : begin of ty_znih_table,
+  emp_id type znih_table-emp_id,
+  name type znih_table-name,
+  salary type znih_table-salary,
+  dcode type znih_table-dcode,
+  end of ty_znih_table.
+
+  data : st_znih_table type ty_znih_table.
+*  data v_d_desc type znih_dep-d_desc.
+
+  parameters p_emp_id type znih_table-emp_id.
+
+  select single emp_id name salary dcode from znih_table into st_znih_table where emp_id eq p_emp_id.
+*  select single d_desc from znih_dep into v_d_desc where dcode eq st_znih_table-dcode.
+
+    write :/ st_znih_table-emp_id,
+    st_znih_table-name,
+    st_znih_table-salary,
+    st_znih_table-dcode.
+*    v_d_desc.
