@@ -1,0 +1,67 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_LISTEVENTS
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_LISTEVENTS LINE-COUNT 10(1).
+
+DATA : it_vbak TYPE TABLE OF vbak,
+       wa_vbak LIKE LINE OF it_vbak,
+       it_vbap TYPE TABLE OF vbap,
+       wa_vbap LIKE LINE OF it_vbap.
+
+SELECT-OPTIONS s_vbeln FOR wa_vbak-vbeln.
+
+SELECT * FROM vbak INTO TABLE it_vbak WHERE vbeln IN s_vbeln.
+SELECT * FROM vbap INTO TABLE it_vbap WHERE vbeln IN s_vbeln.
+
+*TOP-OF-PAGE.
+*WRITE :/ 'DESCRIPTION ABOUT ITEMS'.
+
+*END-OF-PAGE.
+*WRITE :/ ' THE END'.
+
+
+LOOP AT it_vbap INTO wa_vbap.
+READ TABLE it_vbak INTO wa_vbak WITH KEY vbeln = wa_vbap-vbeln.
+
+AT NEW vbeln.
+    WRITE :/ 'DOCUMENT NUMBER:', wa_vbak-vbeln,
+           / 'DOCUMENT DATE:', wa_vbak-audat,
+           / 'NET VALUE:', wa_vbak-netwr,
+           / 'SOLD TO PARTY:', wa_vbak-kunnr.
+    ENDAT.
+
+AT END OF vbeln.
+  SUM.
+  WRITE :/ 'TOTAL ORDER QUANTITY:', wa_vbap-kwmeng,
+         / 'TOTAL NET VALUE:', wa_vbap-netwr.
+ENDAT.
+ENDLOOP.
+
+
+
+
+
+AT LINE-SELECTION.
+WRITE: / 'ITEM',
+      20 'ITEM CATEGORY',
+      40 'DESCRIPTION',
+      69 'ORDER QTY',
+      90 'UOM',
+     110 'NET VALUE'.
+
+
+WRITE :/ wa_vbap-posnr,
+        20 wa_vbap-pstyv,
+        40 wa_vbap-arktx,
+        60 wa_vbap-kwmeng,
+        90 wa_vbap-zieme,
+       100 wa_vbap-netwr.
+
+
+TOP-OF-PAGE.
+WRITE :/ 'DESCRIPTION ABOUT ITEMS'.
+
+END-OF-PAGE.
+WRITE :/ ' THE END'.
