@@ -1,0 +1,64 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_INT3
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_INT3.
+
+DATA : it_vbak TYPE TABLE OF vbak,
+       wa_vbak LIKE LINE OF it_vbak,
+       it_vbap TYPE TABLE OF vbap,
+       wa_vbap LIKE LINE OF it_vbap,
+       it_kna1 TYPE TABLE OF kna1,
+       wa_kna1 LIKE LINE OF it_kna1,
+       it_t006a TYPE TABLE OF t006a,
+       wa_t006a LIKE LINE OF it_t006a.
+
+SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE text-001.
+SELECT-OPTIONS s_vbeln FOR wa_vbak-vbeln.
+SELECTION-SCREEN END OF BLOCK b1.
+
+SELECT * FROM vbak INTO TABLE it_vbak WHERE vbeln IN s_vbeln.
+  SELECT * FROM kna1 INTO TABLE it_kna1 FOR ALL ENTRIES IN it_vbak WHERE kunnr = it_vbak-kunnr.
+SELECT * FROM vbap INTO TABLE it_vbap WHERE vbeln IN s_vbeln.
+  SELECT * FROM t006a INTO TABLE it_t006a FOR ALL ENTRIES IN it_vbap WHERE msehi = it_vbap-zieme.
+
+*DATA lv_tabix LIKE sy-Tabix.
+*
+LOOP AT it_vbap INTO wa_vbap.
+*  lv_tabix = sy-Tabix.
+
+READ TABLE it_vbak INTO wa_vbak WITH KEY vbeln = wa_vbap-vbeln.
+READ TABLE it_kna1 INTO wa_kna1 WITH KEY kunnr = wa_vbak-kunnr.
+* wa_vbap_temp = wa_vbap.
+AT NEW vbeln.
+
+
+    WRITE :/ 'DOCUMENT NUMBER:', wa_vbak-vbeln,
+           / 'DOCUMENT DATE:', wa_vbak-audat,
+           / 'NET VALUE:', wa_vbak-netwr,
+           / 'SOLD TO PARTY:', wa_kna1-name1.
+*           / 'Material Number:', wa_vbap_temp-arktx.
+WRITE: / 'ITEM',
+      20 'ITEM CATEGORY',
+      40 'DESCRIPTION',
+      69 'ORDER QTY',
+      90 'UOM',
+     110 'NET VALUE'.
+ENDAT.
+
+READ TABLE it_t006a INTO wa_t006a WITH KEY msehi = wa_vbap-zieme.
+
+WRITE :/ wa_vbap-posnr,
+        20 wa_vbap-pstyv,
+        40 wa_vbap-arktx,
+        60 wa_vbap-kwmeng,
+        90 wa_t006a-msehl,
+       100 wa_vbap-netwr.
+
+AT END OF vbeln.
+  SUM.
+  WRITE :/ 'TOTAL ORDER QUANTITY:', wa_vbap-kwmeng,
+         / 'TOTAL NET VALUE:', wa_vbap-netwr.
+ENDAT.
+ENDLOOP.
