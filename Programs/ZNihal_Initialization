@@ -1,0 +1,12 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_INITIALIZATION
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_INITIALIZATION.
+
+LOAD-OF-PROGRAM.
+
+PARAMETERS p_matnr TYPE c LENGTH 20.
+INITIALIZATION.
+p_matnr = 'Nihal'.
