@@ -1,0 +1,25 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_CDS
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_CDS.
+
+DATA : o_alv TYPE REF TO if_salv_gui_table_ida,
+       o_screen TYPE REF TO if_salv_gui_fullscreen_ida.
+
+cl_salv_gui_table_ida=>create_for_cds_view(
+  EXPORTING
+    iv_cds_view_name      = 'ZNIHAL_2TABLES'
+*    io_gui_container      =
+*    io_calc_field_handler =
+   RECEIVING
+     ro_alv_gui_table_ida  = o_alv
+).
+
+o_alv->fullscreen(
+  RECEIVING
+    ro_fullscreen = o_screen
+).
+
+o_screen->display( ).
