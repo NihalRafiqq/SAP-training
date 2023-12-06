@@ -1,0 +1,26 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_MARC
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT znihal_marc.
+
+TYPES : BEGIN OF ty_marc,
+          matnr TYPE marc-matnr,
+          werks TYPE marc-werks,
+        END OF ty_marc.
+
+DATA : it_marc TYPE TABLE OF ty_marc,
+       wa_marc LIKE LINE OF it_marc.
+
+*PARAMETERS p_matnr TYPE matnr.
+
+SELECT-OPTIONS s_matnr FOR wa_marc-matnr.
+
+SELECT matnr werks FROM marc INTO TABLE it_marc WHERE matnr IN s_matnr.
+WRITE :/ 'Material number ',
+    20 'Plant name '.
+LOOP AT it_marc INTO wa_marc.
+  WRITE :/ wa_marc-matnr,
+        20 wa_marc-werks.
+ENDLOOP.
