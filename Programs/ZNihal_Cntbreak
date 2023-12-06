@@ -1,0 +1,55 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_CNTBREAK
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_CNTBREAK.
+
+DATA : it_vbak TYPE TABLE OF vbak,
+       wa_vbak LIKE LINE OF it_vbak,
+       it_vbap TYPE TABLE OF vbap,
+       wa_vbap LIKE LINE OF it_vbap.
+*       Total_ord_qty TYPE vbap-kwmeng,
+*       Total_net_val TYPE vbap-netwr.
+
+SELECT-OPTIONS s_vbeln FOR wa_vbak-vbeln.
+
+SELECT * FROM vbak INTO TABLE it_vbak WHERE vbeln IN s_vbeln.
+SELECT * FROM vbap INTO TABLE it_vbap WHERE vbeln IN s_vbeln.
+    LOOP AT it_vbap INTO wa_vbap.
+
+AT NEW vbeln.
+
+  READ TABLE it_vbak INTO wa_vbak WITH key vbeln = wa_vbap-vbeln.
+*LOOP AT it_vbak INTO wa_vbak.
+  WRITE :/ 'SALES DOCUMENT:', wa_vbak-vbeln,
+         / 'DOCUMENT DATE:', wa_vbak-audat,
+         / 'NET VALUE:', wa_vbak-netwr,
+         / 'SOLD TO PARTY:', wa_vbak-kunnr.
+*ENDLOOP.
+
+  WRITE :/ 'ITEM',
+        20 'ITEM CATEGORY',
+        40 'DESCRIPTION',
+        69 'ORDER QTY',
+        90 'UOM',
+       110 'NET VALUE'.
+
+
+
+  ENDAT.
+
+  write :/ wa_vbap-posnr,
+        20 wa_vbap-pstyv,
+        40 wa_vbap-arktx,
+        60 wa_vbap-kwmeng,
+        90 wa_vbap-zieme,
+       100 wa_vbap-netwr.
+
+  AT END OF vbeln.
+    SUM.
+    WRITE :/ 'TOTAL ORD QTY', wa_vbap-kwmeng,
+           / 'TOTAL NET VAL',wa_vbap-netwr.
+    ENDAT.
+
+  ENDLOOP.
