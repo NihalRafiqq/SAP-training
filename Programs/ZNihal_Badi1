@@ -1,0 +1,17 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_BADI1
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_BADI1.
+
+DATA o_obj TYPE REF TO ZNIHAL_BADI3.
+
+PARAMETERS v_value TYPE i.
+
+GET BADI o_obj.
+
+CALL BADI o_obj->calculate_gst
+  EXPORTING
+    v_value = v_value
+  .
