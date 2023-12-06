@@ -1,0 +1,25 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_MESSAGES
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_MESSAGES.
+
+DATA : it_makt TYPE TABLE OF makt,
+        wa_makt LIKE LINE OF it_makt.
+
+*SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE text-001.
+PARAMETERS p_matnr TYPE matnr.
+*SELECTION-SCREEN END OF BLOCK b1.
+
+
+SELECT * FROM makt INTO TABLE it_makt WHERE matnr EQ p_matnr.
+
+  IF sy-subrc IS NOT INITIAL.
+*    MESSAGE text-001 TYPE 'E'.
+    MESSAGE e000(ZNIHAL_MESSAGES) WITH p_matnr.
+  ENDIF.
+
+LOOP AT it_makt INTO wa_makt.
+WRITE :/ wa_makt-matnr, wa_makt-spras, wa_makt-maktx.
+ENDLOOP.
