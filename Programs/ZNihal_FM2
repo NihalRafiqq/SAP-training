@@ -1,0 +1,57 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_FM2
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_FM2.
+
+DATA : it_vbak TYPE zya_t_vbak,
+       wa_vbak LIKE LINE OF it_vbak,
+       it_vbap TYPE zya_t_vbap,
+       wa_vbap LIKE LINE OF it_vbap,
+       it_kna1 TYPE zya_t_kna1,
+       wa_kna1 LIKE LINE OF it_kna1,
+       it_t006a TYPE zya_t_t006a,
+       wa_t006a LIKE LINE OF it_t006a,
+       it_header TYPE zya_t_header,
+       wa_header LIKE LINE OF it_header,
+       it_item TYPE zya_t_item,
+       wa_item LIKE LINE OF it_item.
+
+SELECT-OPTIONS s_vbeln FOR wa_header-vbeln.
+
+CALL FUNCTION 'ZNIHAL_HEADER'
+  EXPORTING
+    im_vbeln            = s_vbeln[]
+ IMPORTING
+   EX_HEADER           = it_header
+          .
+
+CALL FUNCTION 'ZNIHAL_HEADER1'
+  EXPORTING
+    im_header_details       = it_header
+          .
+
+AT LINE-SELECTION.
+DATA : v_vbeln TYPE vbap-vbeln.
+DATA : fnam(20), fval(50).
+GET CURSOR FIELD fnam VALUE fval.
+CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+  EXPORTING
+    input         = fval
+ IMPORTING
+   OUTPUT        = v_vbeln
+          .
+
+
+CALL FUNCTION 'ZNIHAL_ITEM'
+  EXPORTING
+    im_v_vbeln       = v_vbeln
+ IMPORTING
+   EX_ITEM          = it_item
+          .
+
+CALL FUNCTION 'ZNIHAL_ITEM1'
+  EXPORTING
+    im_item_details       = it_item
+          .
