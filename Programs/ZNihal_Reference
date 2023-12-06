@@ -1,0 +1,75 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_REFERENCE
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_REFERENCE.
+
+DATA : it_vbak TYPE TABLE OF vbak,
+       wa_vbak LIKE LINE OF it_vbak,
+       it_vbap TYPE TABLE OF vbap,
+       wa_vbap LIKE LINE OF it_vbap.
+
+SELECT-OPTIONS s_vbeln FOR wa_vbak-vbeln.
+
+START-OF-SELECTION.
+  PERFORM display IN PROGRAM ZNIHAL_REFERENCE1 USING s_vbeln[] CHANGING it_vbak.
+  PERFORM display_header.
+END-OF-SELECTION.
+
+AT LINE-SELECTION.
+  DATA : fnam(20), fval(50).
+  DATA : v_vbeln TYPE vbap-vbeln.
+  GET CURSOR FIELD fnam VALUE fval.
+  CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+    EXPORTING
+      input         = fval
+    IMPORTING
+      OUTPUT        = v_vbeln
+            .
+
+PERFORM display1 IN PROGRAM ZNIHAL_REFERENCE1 USING v_vbeln CHANGING it_vbap.
+PERFORM display_item.
+*&---------------------------------------------------------------------*
+*& Form display_header
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM display_header .
+LOOP AT it_vbak INTO wa_vbak.
+  WRITE :/ wa_vbak-vbeln,
+           wa_vbak-audat,
+           wa_vbak-netwr,
+           wa_vbak-kunnr.
+ENDLOOP.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form display_item
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM display_item .
+WRITE :/ 'ITEM',
+      20 'ITEM CTG',
+      35 'DESCRIPTION',
+      60 'ORDER QTY',
+      80 'UOM',
+     100 'NET VALUE'.
+
+LOOP AT it_vbap INTO wa_vbap.
+  WRITE :/ wa_vbap-posnr,
+        20 wa_vbap-pstyv,
+        35 wa_vbap-arktx,
+        50 wa_vbap-kwmeng,
+        80 wa_vbap-zieme,
+        90 wa_vbap-netwr.
+ENDLOOP.
+
+
+ENDFORM.
