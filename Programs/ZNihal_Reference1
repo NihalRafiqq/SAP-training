@@ -1,0 +1,35 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_REFERENCE1
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_REFERENCE1.
+
+TYPES : BEGIN OF ty_range,
+          sign TYPE c LENGTH 1,
+          opti TYPE c LENGTH 2,
+          low  TYPE vbeln,
+          high TYPE vbeln,
+        END OF ty_range.
+
+TYPES : ty_t_range TYPE STANDARD TABLE OF ty_range.
+
+FORM display USING p_s_vbeln TYPE ty_t_range CHANGING p_it_vbak TYPE vbak.
+
+  DATA : it_vbak TYPE STANDARD TABLE OF vbak,
+         wa_vbak LIKE LINE OF it_vbak.
+
+  DATA : p_vbak TYPE STANDARD TABLE OF p_it_vbak,
+         wa_it_vbak LIKE LINE OF p_vbak.
+
+  SELECT * FROM vbak INTO TABLE it_vbak WHERE vbeln IN p_s_vbeln.
+    LOOP AT it_vbak INTO wa_vbak.
+
+    wa_it_vbak-vbeln = wa_vbak-vbeln.
+    wa_it_vbak-audat = wa_vbak-audat.
+    wa_it_vbak-netwr = wa_vbak-netwr.
+    wa_it_vbak-kunnr = wa_vbak-kunnr.
+    APPEND wa_it_vbak TO p_it_vbak.
+
+    ENDLOOP.
+ENDFORM.
