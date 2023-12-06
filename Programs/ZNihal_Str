@@ -1,0 +1,40 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_STR
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_STR.
+
+*TYPES : BEGIN OF ty_makt,
+*       matnr TYPE makt-matnr,
+*       spras TYPE makt-spras,
+*       maktx TYPE makt-maktx,
+*       END OF ty_makt.
+*
+*DATA : st_makt TYPE ty_makt.
+*
+*PARAMETERS p_matnr TYPE matnr.
+*
+*SELECT SINGLE matnr spras maktx FROM makt INTO st_makt WHERE matnr EQ p_matnr.
+*
+*WRITE :/ st_makt-matnr, st_makt-spras, st_makt-maktx.
+
+DATA : st_makt TYPE ZNI_MAKT.
+
+PARAMETERS  : p_matnr type matnr AS LISTBOX VISIBLE LENGTH 20 DEFAULT 'CHIRAG'.
+
+*PARAMETERS : p_day RADIOBUTTON GROUP rb1 DEFAULT 'X',
+*           p_month RADIOBUTTON GROUP rb1 .
+SELECT matnr spras maktx FROM makt INTO st_makt WHERE matnr EQ p_matnr.
+
+*st_makt-matnr = '100'.
+*st_makt-spras = 'E'.
+*st_makt-maktx = 'Nihal'.
+*
+*st_makt-matnr = '200'.
+*st_makt-spras = 'D'.
+*st_makt-maktx = 'Rafiq'.
+
+
+WRITE :/ st_makt-matnr, st_makt-spras, st_makt-maktx.
+ENDSELECT.
