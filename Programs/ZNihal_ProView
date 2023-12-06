@@ -1,0 +1,17 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_PROVIEW
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_PROVIEW.
+
+DATA : it_pr TYPE TABLE OF ZNIHAL_PROVIEW,
+       wa_pr LIKE LINE OF it_pr.
+
+PARAMETERS : p_matnr TYPE matnr.
+
+SELECT * FROM ZNIHAL_PROVIEW INTO TABLE it_pr WHERE matnr EQ p_matnr.
+
+  LOOP AT it_pr INTO wa_pr.
+    WRITE :/ wa_pr.
+  ENDLOOP.
