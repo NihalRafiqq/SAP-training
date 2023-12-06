@@ -1,0 +1,23 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_INT1
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_INT1.
+
+TYPES : BEGIN OF ty_makt,
+        matnr TYPE makt-matnr,
+        spras TYPE makt-spras,
+        maktx TYPE makt-maktx,
+END OF ty_makt.
+
+DATA : it_makt TYPE TABLE OF ty_makt,
+       wa_makt LIKE LINE OF it_makt.
+
+SELECT matnr spras maktx FROM makt INTO TABLE it_makt.
+
+*  READ TABLE it_makt INTO wa_makt index 2.
+READ TABLE it_makt INTO wa_makt WITH KEY spras = 'E'.
+*LOOP AT it_makt INTO wa_makt.
+  WRITE :/ wa_makt.
+*ENDLOOP.
