@@ -1,0 +1,32 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_COLLECT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_COLLECT.
+
+TYPES : BEGIN OF ty_bill,
+        item TYPE c LENGTH 5,
+        qty TYPE i,
+        amt TYPE p LENGTH 5 DECIMALS 2,
+        END OF ty_bill.
+
+DATA : it_bill TYPE TABLE OF ty_bill,
+       wa_bill LIKE LINE OF it_bill.
+
+wa_bill-item = 'soap'.
+wa_bill-qty = 10.
+wa_bill-amt = 100.
+COLLECT wa_bill INTO it_bill.
+
+wa_bill-item = 'brush'.
+wa_bill-qty = 10.
+wa_bill-amt = 100.
+COLLECT wa_bill INTO it_bill.
+
+wa_bill-item = 'soap'.
+wa_bill-qty = 10.
+wa_bill-amt = 100.
+COLLECT wa_bill INTO it_bill.
+
+WRITE :/ wa_bill-item, wa_bill-qty, wa_bill-amt.
