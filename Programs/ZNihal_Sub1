@@ -1,0 +1,23 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_SUB1
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_SUB1.
+
+TYPES : BEGIN OF ty_vbak,
+        vbeln TYPE vbak-vbeln,
+        audat TYPE vbak-audat,
+        netwr TYPE vbak-netwr,
+        kunnr TYPE vbak-kunnr.
+
+TYPES : BEGIN OF ty_vbap,
+        posnr TYPE vbap-posnr,
+        pstyv TYPE vbap-pstyv,
+        arktx TYPE vbap-arktx,
+        kwmeng TYPE vbap-kwmeng,
+        zieme TYPE vbap-zieme,
+        netwr TYPE vbap-netwr.
+
+TYPES : tb_vbak TYPE STANDARD TABLE OF ty_vbak.
+TYPES : tb_vbap TYPE STANDARD TABLE OF ty_vbap.
