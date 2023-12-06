@@ -1,0 +1,18 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_BADI
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_BADI.
+
+DATA o_obj TYPE REF TO ZNIHAL_BADI2.
+
+PARAMETERS p_ctry TYPE c LENGTH 10.
+
+GET BADI o_obj
+FILTERS
+country = p_ctry.
+
+CALL BADI o_obj->country_code.
+
+WRITE 'END'.
