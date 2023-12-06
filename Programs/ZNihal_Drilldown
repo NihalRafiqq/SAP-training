@@ -1,0 +1,83 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_DRILLDOWN
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT znihal_drilldown.
+
+DATA : it_vbap   TYPE TABLE OF vbap,
+      wa_vbap   LIKE LINE OF it_vbap,
+      it_vbak   TYPE TABLE OF vbak,
+      wa_vbak   LIKE LINE OF it_vbak,
+      it_t006a  TYPE TABLE OF t006a,
+      wa_t006a  LIKE LINE OF it_t006a,
+      it_kna1   TYPE TABLE OF kna1,
+      wa_kna1   LIKE LINE OF it_kna1,
+      prevbeln  TYPE vbap-vbeln,
+      sum_order TYPE vbap-kwmeng,
+      sum_net   TYPE vbap-netwr,
+      c_vbeln   TYPE vbak-vbeln.
+
+SELECT-OPTIONS s_num FOR wa_vbak-vbeln.
+
+START-OF-SELECTION.
+SELECT * FROM vbak INTO TABLE it_vbak WHERE vbeln IN s_num.
+SELECT * FROM kna1 INTO TABLE it_kna1 FOR ALL ENTRIES IN it_vbak WHERE kunnr EQ it_vbak-kunnr.
+
+END-OF-SELECTION.
+LOOP AT it_vbak INTO wa_vbak.
+  READ TABLE it_kna1 INTO wa_kna1 WITH KEY kunnr = wa_vbak-kunnr.
+  AT FIRST.
+    WRITE :/20 'Document Number',
+    40 'Doc Date',
+    70 'Net Val',
+    90 'Sold To Party'.
+  ENDAT.
+
+  WRITE : /20 wa_vbak-vbeln,
+  40 wa_vbak-audat,
+  60 wa_vbak-netwr,
+  90  wa_kna1-name1.
+*    HIDE: wa_vbak-vbeln.
+ENDLOOP.
+
+AT LINE-SELECTION.
+DATA : fnam(20),fval(50).
+DATA v_vbeln TYPE vbap-vbeln.
+GET CURSOR FIELD fnam VALUE fval.
+*  fnam = wa_vbak-vbeln.
+CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+EXPORTING
+  INPUT  = fval
+IMPORTING
+  OUTPUT = v_vbeln.
+
+
+*SELECT  vbeln posnr pstyv arktx kwmeng zieme netwr FROM vbap INTO TABLE it_vbap WHERE vbeln EQ wa_vbak-vbeln .
+SELECT * FROM vbap INTO TABLE it_vbap WHERE vbeln EQ v_vbeln.
+SELECT * FROM t006a INTO TABLE it_t006a FOR ALL ENTRIES IN it_vbap WHERE spras EQ sy-langu AND msehi EQ it_vbap-zieme.
+LOOP AT it_vbap INTO wa_vbap.
+  READ TABLE it_t006a INTO wa_t006a WITH KEY msehi = wa_vbap-zieme.
+  AT FIRST.
+    WRITE :/ 'Item',
+    20 'Material',
+    35 'ItemDesc',
+    60 'Order Qty' ,
+    80 'UoM',
+    100'NetVal'.
+  ENDAT.
+  WRITE : / wa_vbap-posnr,
+  20 wa_vbap-pstyv,
+  35  wa_vbap-arktx,
+  50 wa_vbap-kwmeng,
+  80 wa_t006a-msehl,
+  90 wa_vbap-netwr.
+
+
+*   AT END of vbeln.
+*     SUM.
+*     WRITE :/50 wa_vbap-kwmeng,
+*             90 wa_vbap-netwr.
+*     ENDAT.
+
+ENDLOOP.
