@@ -1,0 +1,25 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_STRUCTURE
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_STRUCTURE.
+
+"Defining type
+TYPES : BEGIN OF ty_makt,
+  matnr TYPE makt-matnr,
+  spras TYPE makt-spras,
+  maktx TYPE makt-maktx,
+  END OF ty_makt.
+
+"Defining a object to store the data
+DATA : st_makt TYPE ty_makt.
+
+"Taking parameter to show in output screen
+PARAMETERS p_matnr TYPE matnr.
+
+"Writing select statement to select from tables
+SELECT SINGLE matnr spras maktx FROM makt INTO st_makt WHERE matnr EQ p_matnr.
+
+"Writing the write statement to display
+WRITE :/ st_makt-matnr, st_makt-spras, st_makt-maktx.
