@@ -1,0 +1,23 @@
+*&---------------------------------------------------------------------*
+*& Report ZNIHAL_DBVIEW
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT ZNIHAL_DBVIEW.
+
+DATA : it_db TYPE TABLE OF ZNIHAL_VpVK,
+       wa_db LIKE LINE OF it_db.
+
+PARAMETERS : p_vbeln TYPE vbeln.
+
+SELECT * FROM ZNIHAL_Vpvk INTO TABLE it_db WHERE vbeln EQ p_vbeln.
+
+  LOOP AT it_db INTO wa_db.
+    WRITE :/ wa_db-vbeln,
+           / wa_db-audat,
+           / wa_db-netwr,
+           / wa_db-kunnr,
+           / wa_db-pstyv,
+           / wa_db-arktx,
+           / wa_db-kwmeng.
+  ENDLOOP.
